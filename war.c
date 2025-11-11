@@ -9,6 +9,7 @@ typedef struct {
 
 #define NUM_TERRITORIOS 5
 
+
 void limpar_quebra_linha(char *string) {
     size_t len = strlen(string);
     if (len > 0 && string[len - 1] == '\n') {
@@ -16,35 +17,52 @@ void limpar_quebra_linha(char *string) {
     }
 }
 
+
+int ler_string(char *buffer, int tamanho, const char *prompt) {
+    printf("  %s: ", prompt);
+   
+    if (fgets(buffer, tamanho, stdin) == NULL) {
+        printf("Erro na leitura.\n");
+        return 0; // Indica falha
+    }
+    limpar_quebra_linha(buffer);
+    return 1; // Indica sucesso
+}
+
+
+void limpar_buffer_scanf() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 int main() {
     Territorio listaTerritorios[NUM_TERRITORIOS];
     int i;
     
-    printf("--- Cadastro de %d Territórios ---\n\n", NUM_TERRITORIOS);
+    printf("--- Cadastro de %d Territórios (Processamento Aprimorado) ---\n\n", NUM_TERRITORIOS);
     
     for (i = 0; i < NUM_TERRITORIOS; i++) {
         printf("Território #%d:\n", i + 1);
 
-        printf("  Nome do Território (máx. 29 caracteres): ");
-        if (fgets(listaTerritorios[i].nome, sizeof(listaTerritorios[i].nome), stdin) == NULL) {
+       
+        if (!ler_string(listaTerritorios[i].nome, sizeof(listaTerritorios[i].nome), "Nome do Território")) {
             return 1;
         }
-        limpar_quebra_linha(listaTerritorios[i].nome);
 
-        printf("  Cor do Exército (máx. 9 caracteres): ");
-        if (fgets(listaTerritorios[i].cor, sizeof(listaTerritorios[i].cor), stdin) == NULL) {
+        
+        if (!ler_string(listaTerritorios[i].cor, sizeof(listaTerritorios[i].cor), "Cor do Exército")) {
             return 1;
         }
-        limpar_quebra_linha(listaTerritorios[i].cor);
         
+     
         printf("  Quantidade de Tropas: ");
         if (scanf("%d", &listaTerritorios[i].tropas) != 1) {
-            printf("Entrada inválida.\n");
+            printf("Entrada de tropas inválida.\n");
             return 1;
         }
         
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+   
+        limpar_buffer_scanf();
         
         printf("\n");
     }
