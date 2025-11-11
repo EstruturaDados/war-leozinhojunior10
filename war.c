@@ -23,10 +23,10 @@ int ler_string(char *buffer, int tamanho, const char *prompt) {
    
     if (fgets(buffer, tamanho, stdin) == NULL) {
         printf("Erro na leitura.\n");
-        return 0; // Indica falha
+        return 0; 
     }
     limpar_quebra_linha(buffer);
-    return 1; // Indica sucesso
+    return 1; 
 }
 
 
